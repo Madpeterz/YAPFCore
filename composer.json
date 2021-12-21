@@ -1,6 +1,6 @@
 {
-    "name": "madpeterz/yapfinputfilter",
-    "description": "YAPF - The input filter",
+    "name": "madpeterz/yapfcore",
+    "description": "YAPF - shared core for error logging",
     "type": "library",
     "license": "GPL-3.0-only",
     "autoload": {

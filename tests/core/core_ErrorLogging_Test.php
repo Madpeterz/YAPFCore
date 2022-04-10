@@ -8,7 +8,9 @@ class coreErrorLoggingtest extends TestCase
 {
     protected function setUp(): void
     {
-        define('THIS_IS_A_TEST_STRING', "This is a test");
+        if(defined('THIS_IS_A_TEST_STRING') == false) {
+            define('THIS_IS_A_TEST_STRING', "This is a test");
+        }
     }
     public function test_last_error_message()
     {
@@ -44,5 +46,14 @@ class coreErrorLoggingtest extends TestCase
         $this->assertSame($result, ["why","status" => false,"message" => THIS_IS_A_TEST_STRING]);
         $result = $_testingobject->test_addError(__FILE__, __FUNCTION__, THIS_IS_A_TEST_STRING, ["popcorn" => "why"]);
         $this->assertSame($result, ["popcorn" => "why","status" => false,"message" => THIS_IS_A_TEST_STRING]);
+    }
+
+    public function test_enableConsoleErrors()
+    {
+        // need a system to capture the error_log so we can test that
+        $_testingobject = new ErrorLoggingTestClass();
+        $_testingobject->enableConsoleErrors();
+        $_testingobject->test_addError(__FILE__,__FUNCTION__, "This is a test");
+        $this->assertStringContainsString("This is a test",$_testingobject->getLastError(),"error message is missing or invaild");
     }
 }

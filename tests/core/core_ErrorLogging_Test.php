@@ -16,8 +16,14 @@ class coreErrorLoggingtest extends TestCase
     {
         $_testingobject = new ErrorLoggingTestClass();
         $_testingobject->test_addError(THIS_IS_A_TEST_STRING);
-        $fullErrorMessage = '{"file":"D:\\\php\\\YAPFCore\\\tests\\\bootstrap.php","function":"addError","class":"YAPF\\\Core\\\ErrorControl\\\ErrorLogging","line":23,"message":"This is a test"}';
-        $this->assertSame($fullErrorMessage, $_testingobject->getLastError(), "Incorrect error message");
+        $jsonme = [
+            "file" => "D:\\php\\YAPFCore\\tests\\core\\core_ErrorLogging_Test.php",
+            "function" => "test_addError",
+            "class" => "YAPFtest\\ErrorLoggingTestClass",
+            "line" => 18,
+            "message" => "This is a test",
+        ];
+        $this->assertSame(json_encode($jsonme), $_testingobject->getLastError(), "Incorrect error message");
     }
 
     public function testLastBasicErrorEmpty()

@@ -21,11 +21,11 @@ abstract class ErrorLogging
     ): void {
         $bt =  debug_backtrace();
         $bits = [
-            "file" => $bt[0]['file'],
-            "function" => $bt[0]['function'],
-            "class" => $bt[0]['class'],
-            "line" => $bt[0]['line'],
-            "message" => $errorMessage
+            "file" => $bt[1]['file'],
+            "function" => $bt[1]['function'],
+            "class" => $bt[1]['class'],
+            "line" => $bt[1]['line'],
+            "message" => $errorMessage,
         ];
         $this->myLastError = json_encode($bits);
         $this->myLastErrorBasic = $errorMessage;

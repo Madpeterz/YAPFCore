@@ -17,17 +17,21 @@ abstract class ErrorLogging
      * @return mixed[] [status =>  false, message =>  string]
      */
     protected function addError(
-        string $flileHint = "",
-        string $functionHint = "",
         string $errorMessage = "",
-        array $arrayAddon = []
-    ): array {
-        $this->myLastError = "File: " . $flileHint . " Function: " . $functionHint . " info: " . $errorMessage . "";
+    ): void {
+        $bt =  debug_backtrace();
+        $bits = [
+            "file" => $bt[0]['file'],
+            "function" => $bt[0]['function'],
+            "class" => $bt[0]['class'],
+            "line" => $bt[0]['line'],
+            "message" => $errorMessage
+        ];
+        $this->myLastError = json_encode($bits);
         $this->myLastErrorBasic = $errorMessage;
         if (($this->enableErrorConsole == true) || (defined("ErrorConsole") == true)) {
             error_log($this->myLastError);
         }
-        return array_merge($arrayAddon, ["status" => false, "message" => $errorMessage]);
     }
     public function enableConsoleErrors(): void
     {

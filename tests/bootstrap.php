@@ -18,8 +18,8 @@ class ErrorLoggingTestClass extends ErrorLogging
     /**
      * by default addError is protected
      */
-    public function test_addError(string $fl = "", string $fn = "", string $er = "", array $ext = []): array
+    public function test_addError(string $er = ""): void
     {
-        return $this->addError($fl, $fn, $er, $ext);
+        $this->addError($er);
     }
 }

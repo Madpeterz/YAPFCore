@@ -28,7 +28,7 @@ abstract class ErrorLogging
             $readIndex = 0;
         }
         if (array_key_exists($readIndex, $bt) == false) {
-            return;
+            $bt = [0 => []];
         }
         $bt = $bt[$readIndex];
         $bits = ["message" => $errorMessage];

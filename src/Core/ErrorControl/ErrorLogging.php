@@ -20,17 +20,23 @@ abstract class ErrorLogging
         string $errorMessage = "",
     ): void {
         $bt =  debug_backtrace();
+        if (is_array($bt) == false) {
+            $bt = [0 => []];
+        }
         $readIndex = 1;
         if (array_key_exists(1, $bt) == false) {
             $readIndex = 0;
         }
-        $bits = [
-            "file" => $bt[$readIndex]['file'],
-            "function" => $bt[$readIndex]['function'],
-            "class" => $bt[$readIndex]['class'],
-            "line" => $bt[$readIndex]['line'],
-            "message" => $errorMessage,
-        ];
+        if (array_key_exists($readIndex, $bt) == false) {
+            return;
+        }
+        $bt = $bt[$readIndex];
+        $bits = ["message" => $errorMessage];
+        foreach (["file","function","class","line"] as $w) {
+            if (array_key_exists($w, $bt) == true) {
+                $bits[$w] = $bt[$w];
+            }
+        }
         $this->myLastError = json_encode($bits);
         $this->myLastErrorBasic = $errorMessage;
         if (($this->enableErrorConsole == true) || (defined("ErrorConsole") == true)) {

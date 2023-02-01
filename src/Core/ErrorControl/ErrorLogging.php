@@ -7,6 +7,7 @@ abstract class ErrorLogging
     protected $myLastError = "";
     protected $myLastErrorBasic = "";
     protected bool $enableErrorConsole = false;
+    protected bool $printErrorsToScreen = false;
     /**
      * addError
      * see getLastError()
@@ -39,13 +40,20 @@ abstract class ErrorLogging
         }
         $this->myLastError = json_encode($bits);
         $this->myLastErrorBasic = $errorMessage;
-        if (($this->enableErrorConsole == true) || (defined("ErrorConsole") == true)) {
+        if (($this->enableErrorConsole == true) || (defined("ERRORCONSOLE") == true)) {
             error_log($this->myLastError);
+            if (($this->printErrorsToScreen == true) || (defined("ERRORCONSOLEPRINT") == true)) {
+                print "<br/>" . $this->myLastError . "\n<br/>";
+            }
         }
     }
     public function enableConsoleErrors(): void
     {
         $this->enableErrorConsole = true;
+    }
+    public function enablePrintConsoleErrors(): void
+    {
+        $this->printErrorsToScreen = true;
     }
     public function getLastErrorBasic(): string
     {
